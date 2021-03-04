@@ -1,25 +1,37 @@
 import * as actions from '../Actions/action';
-import { takeEvery, call, fork,put } from 'redux-saga/effects';
+import { call, fork, put, take } from 'redux-saga/effects';
 import * as api from '../API/MoviesAPI'
 
-function* getMovies({ payload }) {
-    // console.log( payload );
+function* getMovies({ Lists }) {
+
     try {
-        const listOfMovies = yield call(api.getMovies({payload}));
-        console.log(listOfMovies);
-// yield put(actions.getMoviesSuccess({
-//     moviesList:result.
-// }))
+        const result = yield call(api.getMovies, { Lists })
+
+        yield put(actions.getMoviesSuccess({
+            moviesList: result.data.results
+        }))
+
 
     } catch (error) {
-
+        console.log(error);
+        yield put(actions.moviesErorr({
+            error: "Opps no such movies found"
+        }))
     }
 }
 
 
 
 function* watchgetMoviesRequest() {
-    yield takeEvery(actions.Types.GET_MOVIES_REQUEST,getMovies)
+    while (true) {
+        const show_Movies_List = yield take(actions.Types.GET_MOVIES_REQUEST);
+        // console.log(show_Movies_List);
+        yield call(getMovies, {
+            Lists: show_Movies_List.payload
+        })
+    }
+
+
 }
 
 const MoviesSaga = [
