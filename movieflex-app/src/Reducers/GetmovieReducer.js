@@ -2,11 +2,13 @@ import { Types } from '../Actions/action';
 
 const initstate = {
     Movies: [],
+    // Movies: {},
     Error: ''
 }
 
 const GetmovieReducer = (state = initstate, action) => {
-    // console.log(action.payload);
+//   console.log(action.payload);
+//   console.log(state.Movies);
     switch (action.type) {
         case Types.GET_MOVIES_SUCCESS:
 

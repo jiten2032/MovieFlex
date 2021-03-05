@@ -5,7 +5,9 @@ import { connect } from 'react-redux';
 
 export class MoviesList extends Component {
     state = {
-        SerachContainer: ""
+        SerachContainer: "",
+        display: false,
+        favourite:false
     }
 
     handleChange = (e) => {
@@ -20,12 +22,27 @@ export class MoviesList extends Component {
 
 
         this.setState({
-            SerachContainer: ""
+            SerachContainer: "",
+            display: true
+
+        })
+    }
+    handleClick_white_heart = () =>{
+        this.setState({
+            
+            favourite:true
+        })
+    }
+    handleClick_red_heart = () =>{
+        this.setState({
+            
+            favourite:false
         })
     }
 
     render() {
-        // console.log(this.props);
+        // console.log(this.props.GetmovieReducer.Movies);
+       
 
         const { Movies } = this.props.GetmovieReducer;
         const newMoviesList = Movies.length ? (
@@ -34,20 +51,25 @@ export class MoviesList extends Component {
                 return (
 
 
-                    <div className="card my-3 border border-success border-2 mx-auto" key={movie.id} style={{maxWidth:"840px"}}>
+                    <div className="card my-3 border border-success border-2 mx-auto" key={movie.id} style={{ maxWidth: "840px" }}>
                         <div className="row g-0">
-                            <div className="col-md-4 "> <img src={imgURL + movie.poster_path}  className="card-img-top img-fluid " alt={movie.title + 'image'} /></div>
+                            <div className="col-md-4 "> <img src={imgURL + movie.poster_path} className="card-img-top img-fluid " alt={movie.title + 'image'} /></div>
                             <div className="col-md-8 my-3 text-center">
                                 <div className="card-body">
-                                    <h5 className="card-title">{movie.title}</h5>
-                                    <p className="card-text">Overview :{movie.overview}</p>
-                                    <p className="card-text">Popularity :{movie.popularity}</p>
-                                    <p className="card-text">{movie.vote_average}</p>
-                                    <p className="card-text">{movie.vote_count}</p>
-                                    <p className="card-text">{movie.popularity}</p>
-                                    <p className="card-text"><small className="text-muted">{movie.release_date}</small></p>
-                                    <p className="card-text">Add to  favourite
-                                        <img src="https://img.icons8.com/officel/16/000000/like--v2.png" alt="like" />
+                                    <h5 className="card-title fs-4 text-success">{movie.title}</h5>
+                                    <p className="card-text"> <span className="fs-5 text-primary">Overview :</span> {movie.overview}</p>
+                                    <p className="card-text"><span className="fs-5 text-primary">Popularity :</span>   {movie.popularity}</p>
+                                    <p className="card-text"><span className="fs-5 text-primary">Average Votes :</span>  {movie.vote_average}</p>
+                                    <p className="card-text"><span className="fs-5 text-primary">Vote Count :</span>   {movie.vote_count}</p>
+                                    <p className="card-text"><span className="fs-5 text-primary">Release Date :</span>  <small className="text-muted">{movie.release_date}</small></p>
+                                    <p className="card-text"><span className="fs-5 text-primary"> Add to  favourite</span>
+                                    {/* <button type="button" class="btn btn-link text-decoration-none">Link</button> */}
+                                        {this.state.favourite ? 
+                                        (<span  className="btn" onClick={this.handleClick_red_heart}>   <img src="https://img.icons8.com/emoji/48/000000/red-heart.png" alt="redHeart"/></span>) :
+                                     (<span  className="btn" onClick={this.handleClick_white_heart}><img src="https://img.icons8.com/emoji/48/000000/white-heart.png" alt="whiteheart" /></span>)}
+
+                                     {/* <button type="button" class="btn btn-link text-decoration-none">Link</button> */}
+
                                     </p>
                                 </div>
                             </div>
@@ -60,13 +82,13 @@ export class MoviesList extends Component {
 
 
         ) : (
-                <div className="alert alert-success text-center" role="alert">
-                    <h4 className="alert-heading">Sorry!</h4>
-                    <p>oop's Can't find the Movies with this name</p>
-                    <hr />
-                    <p className="mb-0">please try another</p>
-                </div>
-            )
+            <div className="alert alert-success text-center" role="alert">
+                <h4 className="alert-heading">Sorry!</h4>
+                <p>oop's Can't find the Movies with this name</p>
+                <hr />
+                <p className="mb-0">please try another</p>
+            </div>
+        )
 
         return (
             <div className="movieslist">
@@ -81,12 +103,16 @@ export class MoviesList extends Component {
                         </div>
                     </form>
                 </div>
-                <div className="container ">
+
+                {this.state.display ? (<div className="container ">
 
 
                     {newMoviesList}
 
-                </div>
+                </div>) : (
+                    null
+                )}
+
 
 
             </div>

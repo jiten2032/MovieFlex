@@ -6,9 +6,10 @@ function* getMovies({ Lists }) {
 
     try {
         const result = yield call(api.getMovies, { Lists })
-
+// console.log(result.data);
         yield put(actions.getMoviesSuccess({
             moviesList: result.data.results
+            // moviesList: result.data
         }))
 
 
