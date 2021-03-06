@@ -3,7 +3,8 @@ import { Types } from '../Actions/action';
 const initstate = {
     Movies: [],
     // Movies: {},
-    Error: ''
+    Error: '',
+    display: false
 }
 
 const GetmovieReducer = (state = initstate, action) => {
@@ -14,6 +15,7 @@ const GetmovieReducer = (state = initstate, action) => {
 
             return {
                 ...state,
+                display: true,
                 Movies: action.payload.moviesList
 
             }

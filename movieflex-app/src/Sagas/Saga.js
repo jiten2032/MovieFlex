@@ -6,7 +6,7 @@ function* getMovies({ Lists }) {
 
     try {
         const result = yield call(api.getMovies, { Lists })
-// console.log(result.data);
+        // console.log(result.data);
         yield put(actions.getMoviesSuccess({
             moviesList: result.data.results
             // moviesList: result.data
@@ -35,8 +35,11 @@ function* watchgetMoviesRequest() {
 
 }
 
+
+
 const MoviesSaga = [
-    fork(watchgetMoviesRequest)
+    fork(watchgetMoviesRequest),
+ 
 ]
 
 export default MoviesSaga;
